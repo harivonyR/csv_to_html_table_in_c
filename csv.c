@@ -64,3 +64,19 @@ char**get_row(char* filename, int row_number) {
     fclose(file);
     return row;
 }
+
+int get_row_count(char* filename) {
+    FILE* file = fopen(filename, "r");
+    int counter = 0; // Start from 0 to count all lines including header
+    if (file == NULL) {
+        perror("Error opening file");
+        return 0;
+    }
+    char line[1024];
+
+    while (fgets(line, sizeof(line), file)) {
+        counter++;
+    }
+    fclose(file);
+    return counter;
+}

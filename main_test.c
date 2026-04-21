@@ -2,13 +2,13 @@
 #include "html.h"
 #include "csv.h"
 
-// not used, yet
+// default parameters
 char* input_filename = "table.csv";
 char* output_filename = "table.html";
 
 int main() {
-    char **header = get_header("table.csv");
-
+    char **header = get_header(input_filename);
+    int row_count = get_row_count(input_filename);
     if (header == NULL){
         return 1;
     }
@@ -25,8 +25,8 @@ int main() {
     write_html("</tr>\n");
 
     // write table rows in html
-    for (int row_number = 1; row_number < 10; row_number++) {
-        char **row = get_row("table.csv", row_number);
+    for (int row_number = 1; row_number < row_count; row_number++) {
+        char **row = get_row(input_filename, row_number);
         if (row == NULL || row[0] == NULL) {
             break;
         }
@@ -42,6 +42,7 @@ int main() {
     write_html("</table>\n");
     write_html_footer();
 
+    printf("[i] : %d rows written to %s\n", row_count, output_filename);
     
     return 0;
 }
